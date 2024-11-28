@@ -1,4 +1,4 @@
-package com.example.services;
+package com.KioskService.services;
 
 public interface KioskService {
 }

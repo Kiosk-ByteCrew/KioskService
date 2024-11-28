@@ -1,6 +1,6 @@
-package com.example.services.restaurant.service;
+package com.KioskService.services.restaurant.service;
 
-import com.example.model.Restaurant;
+import com.KioskService.model.Restaurant;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.example.services.restaurant.service;
+package com.KioskService.services.restaurant.service;
 
-import com.example.model.Restaurant;
-import com.example.services.restaurant.respository.RestaurantRepository;
+import com.KioskService.model.Restaurant;
+import com.KioskService.services.restaurant.respository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.configurations;
+package com.KioskService.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,17 +12,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("Log log log log");
         http
-                // Disable CSRF for simplicity; enable it in production as needed
                 .csrf(AbstractHttpConfigurer::disable)
-                // Configure authorization for HTTP requests
-                .authorizeHttpRequests(authz -> authz
-                        // Permit all requests without authentication
-                        .anyRequest().permitAll()
-                )
-                // Disable HTTP Basic Authentication
-                .httpBasic(Customizer.withDefaults());
-
+                .cors(cors -> cors.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/ws").permitAll()
+                        .requestMatchers("/ws-sockjs").permitAll() // Permit WebSocket connections
+                        .requestMatchers("/kiosk/api/**").permitAll() // Permit API access
+                        .anyRequest().authenticated() // Secure all other requests
+                );
         return http.build();
     }
 }

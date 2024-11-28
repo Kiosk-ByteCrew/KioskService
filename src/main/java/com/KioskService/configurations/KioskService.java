@@ -1,11 +1,11 @@
-package com.example.configurations;
+package com.KioskService.configurations;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example.*"})
+@ComponentScan(basePackages = {"com.KioskService.*"})
 public class KioskService {
 
     public static void main(String[] args) {

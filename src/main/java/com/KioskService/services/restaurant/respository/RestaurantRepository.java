@@ -1,7 +1,7 @@
-package com.example.services.restaurant.respository;
+package com.KioskService.services.restaurant.respository;
 
-import com.example.model.Restaurant;
-import com.example.services.restaurant.constants.MysqlQueries;
+import com.KioskService.model.Restaurant;
+import com.KioskService.services.restaurant.constants.MysqlQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
