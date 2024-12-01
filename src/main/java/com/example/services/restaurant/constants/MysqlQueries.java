@@ -1,4 +1,4 @@
-package com.kiosk.services.restaurant.constants;
+package com.example.services.restaurant.constants;
 
 public class MysqlQueries {
 

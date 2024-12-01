@@ -1,7 +1,7 @@
-package com.kiosk.services.restaurant.respository;
+package com.example.services.restaurant.respository;
 
-import com.kiosk.model.Restaurant;
-import com.kiosk.services.restaurant.constants.MysqlQueries;
+import com.example.model.Restaurant;
+import com.example.services.restaurant.constants.MysqlQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,3 +20,4 @@ public class RestaurantRepository {
         return jdbcTemplate.query(sqlQuery, new BeanPropertyRowMapper<>(Restaurant.class));
     }
 }
+

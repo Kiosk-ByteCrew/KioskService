@@ -1,4 +1,4 @@
-package com.kiosk.configurations;
+package com.example.configurations;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
