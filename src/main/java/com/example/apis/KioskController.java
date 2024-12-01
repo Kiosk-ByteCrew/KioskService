@@ -1,8 +1,7 @@
-package com.kiosk.apis;
+package com.example.apis;
 
-
-import com.kiosk.model.Restaurant;
-import com.kiosk.services.restaurant.service.RestaurantService;
+import com.example.model.Restaurant;
+import com.example.services.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
