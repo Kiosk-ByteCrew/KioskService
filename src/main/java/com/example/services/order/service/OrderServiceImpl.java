@@ -8,22 +8,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-//    @Autowired
-//    private OrderRepository orderRepository;
-//
-//    @Override
-//    public Order placeOrder(Order order) {
-//        // Save the order
-//        orderRepository.saveOrder(order);
-//        // Return the saved order (if needed, fetch it back from DB for consistency)
-//        return order;
-//    }
-//
-//    @Override
-//    public Order fetchOrderById(Long orderId) {
-//        // Fetch order by ID
-//        return orderRepository.findOrderById(orderId);
-//    }
 @Service
 public class OrderServiceImpl implements OrderService {
 
