@@ -1,4 +1,4 @@
-package com.kiosk.model;
+package com.example.model;
 
 
 import jakarta.persistence.Column;
