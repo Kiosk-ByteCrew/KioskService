@@ -13,6 +13,9 @@ public class SessionService {
     public Session getSession(String sessionId) {
         return sessions.get(sessionId);
     }
+    public ConcurrentHashMap<String, Session> getAllSession() {
+        return sessions;
+    }
     public void associateUserWithSession(String sessionId, Session session) {
         sessions.put(sessionId, session);
     }

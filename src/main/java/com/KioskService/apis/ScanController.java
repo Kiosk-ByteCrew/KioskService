@@ -1,27 +1,28 @@
 package com.KioskService.apis;
 
 import com.KioskService.model.Session;
-import com.KioskService.model.User;
 import com.KioskService.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
-//@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class ScanController {
 
     @Autowired
     private SessionService sessionService;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    @Value("${api.key}")
+    private String VALID_API_KEY;
 
     /**
      * Existing method to create a new session.
@@ -36,41 +37,48 @@ public class ScanController {
         return ResponseEntity.ok("Session created successfully");
     }
 
-    /**
-     * Existing test endpoint.
-     */
-    @GetMapping("/test")
-    public String test() {
-        return "test.";
-    }
-
-    /**
-     * Existing method to handle QR code scans and associate users with sessions.
-     */
-    @PostMapping("/scan")
-    public ResponseEntity<String> scanQrCode(@RequestBody Map<String, String> payload) {
-        String sessionId = payload.get("sessionId");
-        String username = payload.get("username");
-        if (sessionId == null || sessionId.isEmpty()) {
-            return ResponseEntity.badRequest().body("Session ID is required");
-        }
-        if (username == null || username.isEmpty()) {
-            return ResponseEntity.badRequest().body("Username is required");
-        }
-        Session session = sessionService.getSession(sessionId);
-        if (session == null) {
-            return ResponseEntity.status(404).body("Session not found");
+    @GetMapping("/session/all")
+    public ResponseEntity<?> getAllSessions(@RequestHeader(value = "API-Key", required = false) String apiKey) {
+        // Check if the API key is provided and valid
+        if (apiKey == null || !apiKey.equals(VALID_API_KEY)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden: Invalid or missing API key");
         }
 
-        // Associate user with session
-        User user = new User();
-        user.setUsername(username);
-        session.setUser(user);
-        sessionService.associateUserWithSession(sessionId, session);
+        // Fetch all sessions from the session service
+        ConcurrentHashMap<String, Session> sessions = sessionService.getAllSession();
 
-        // Notify Kiosk App via WebSocket
-        messagingTemplate.convertAndSend("/session/" + sessionId, username);
-        return ResponseEntity.ok("Scan successful");
+        // If no sessions exist, return a 404 NOT FOUND status
+        if (sessions.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No sessions found");
+        }
+
+        // Prepare a list to store the session details to return as a response
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        // Loop through each session and build a response for each session
+        for (Map.Entry<String, Session> entry : sessions.entrySet()) {
+            String sessionId = entry.getKey();
+            Session session = entry.getValue();
+
+            // Determine the session status: connected or pending
+            boolean isConnected = session.getUser() != null;
+
+            // Prepare a map for each session's details
+            Map<String, Object> sessionDetails = new HashMap<>();
+            sessionDetails.put("sessionId", sessionId);
+            sessionDetails.put("status", isConnected ? "connected" : "pending");
+
+            // If the session is connected, include user details
+            if (isConnected) {
+                sessionDetails.put("user", session.getUser().getUsername());
+            }
+
+            // Add the session details to the response list
+            response.add(sessionDetails);
+        }
+
+        // Return the list of sessions with HTTP status 200 OK
+        return ResponseEntity.ok(response);
     }
 
     /**
