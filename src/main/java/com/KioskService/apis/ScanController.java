@@ -1,6 +1,7 @@
 package com.KioskService.apis;
 
 import com.KioskService.model.Session;
+import com.KioskService.model.User;
 import com.KioskService.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +81,31 @@ public class ScanController {
         // Return the list of sessions with HTTP status 200 OK
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/scan")
+    public ResponseEntity<String> scanQrCode(@RequestBody Map<String, String> payload) {
+        String sessionId = payload.get("sessionId");
+        String username = payload.get("username");
+        if (sessionId == null || sessionId.isEmpty()) {
+            return ResponseEntity.badRequest().body("Session ID is required");
+        }
+        if (username == null || username.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username is required");
+        }
+        Session session = sessionService.getSession(sessionId);
+        if (session == null) {
+            return ResponseEntity.status(404).body("Session not found");
+        }
+
+        // Associate user with session
+        User user = new User();
+        user.setUsername(username);
+        session.setUser(user);
+        sessionService.associateUserWithSession(sessionId, session);
+
+        return ResponseEntity.ok("Scan successful");
+    }
+
 
     /**
      * New method to retrieve the status of a session.
