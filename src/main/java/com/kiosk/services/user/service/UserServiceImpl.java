@@ -40,9 +40,13 @@
 package com.kiosk.services.user.service;
 
 import com.kiosk.model.Order;
+import com.kiosk.model.Restaurant;
 import com.kiosk.model.User;
 import com.kiosk.model.UserDetails;
+import com.kiosk.services.order.models.OrderResponse;
+import com.kiosk.services.order.respository.OrderDetailsRepository;
 import com.kiosk.services.order.respository.OrderRepository;
+import com.kiosk.services.restaurant.respository.RestaurantRepository;
 import com.kiosk.services.user.models.UserRequest;
 import com.kiosk.services.user.models.UserResponse;
 import com.kiosk.services.user.repository.UserRepository;
@@ -50,6 +54,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,6 +64,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     public UserResponse fetchUserDetails(int userId) {
         User user = userRepository.fetchUserDetails(userId);
@@ -94,6 +103,29 @@ public class UserServiceImpl implements UserService {
         user = createUser(userRequest);
 
         return user;
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrderForUser(String userName, Integer id) {
+        List<Order> orders = new ArrayList<>();
+        if(id == null) {
+            Integer userId = userRepository.fetchUserByName(userName).getId();
+            orders = fetchOrdersByUserId(userId);
+        } else {
+            orders = fetchOrdersByUserId(id);
+        }
+        List<Restaurant> restaurants = restaurantRepository.fetchAllRestaurants();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        for(Order order : orders) {
+            String restaurantName = null;
+            for(Restaurant restaurant : restaurants) {
+                if(restaurant.getId() == order.getRestaurantId()) {
+                    restaurantName = restaurant.getName();
+                }
+            }
+            orderResponses.add(OrderResponse.getOrderResponse(order, restaurantName, orderDetailsRepository.findById(order.getOrderDetailsId())));
+        }
+        return orderResponses;
     }
 
     private User fetchUserByUserName(String username) {

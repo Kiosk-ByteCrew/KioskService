@@ -7,4 +7,5 @@ public class MysqlQueries {
 
     public static final String FETCH_ORDER_BY_ID = "SELECT * FROM orders WHERE id = ?";
     public static final String FETCH_PAST_ORDERS_BY_USER_ID = "SELECT * FROM orders WHERE userId = ?";
+    public static final String FETCH_PAST_ORDERS_BY_USER_NAME = "SELECT * FROM orders WHERE userName = ?";
 }

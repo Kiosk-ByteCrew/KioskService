@@ -23,4 +23,8 @@ public class OrderDetailsRepository {
     public List<OrderDetails> findAll() {
         return mongoTemplate.findAll(OrderDetails.class);
     }
+
+    public OrderDetails findById(String orderDetailsId) {
+        return mongoTemplate.findById(orderDetailsId, OrderDetails.class);
+    }
 }
