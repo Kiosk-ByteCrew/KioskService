@@ -63,4 +63,22 @@ public class UserRepository {
             throw new RuntimeException("Failed to insert the user into the database.");
         }
     }
+
+    public User fetchUserByName(String username) {
+        String sqlQuery = MysqlQueries.FETCH_USER_BY_USER_NAME;
+        return jdbcTemplate.query(
+                sqlQuery,
+                new Object[]{username},
+                rs -> {
+                    if (rs.next()) {
+                        return new User(
+                                rs.getInt("id"),
+                                rs.getString("userName"),
+                                null
+                        );
+                    }
+                    return null;
+                }
+        );
+    }
 }

@@ -3,6 +3,7 @@ package com.kiosk.apis;
 import com.kiosk.model.Session;
 import com.kiosk.model.User;
 import com.kiosk.services.SessionService;
+import com.kiosk.services.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class ScanController {
 
     @Autowired
     private SessionService sessionService;
+    @Autowired
+    private UserService userService;
 
     @Value("${api.key}")
     private String VALID_API_KEY;
@@ -86,6 +89,7 @@ public class ScanController {
     public ResponseEntity<String> scanQrCode(@RequestBody Map<String, String> payload) {
         String sessionId = payload.get("sessionId");
         String username = payload.get("username");
+        String email = payload.get("email");
         if (sessionId == null || sessionId.isEmpty()) {
             return ResponseEntity.badRequest().body("Session ID is required");
         }
@@ -97,15 +101,12 @@ public class ScanController {
             return ResponseEntity.status(404).body("Session not found");
         }
 
-        // Associate user with session
-        User user = new User();
-        user.setUserName(username);
+        User user = userService.findOrCreateUser(username, email);
         session.setUser(user);
         sessionService.associateUserWithSession(sessionId, session);
 
         return ResponseEntity.ok("Scan successful");
     }
-
 
     /**
      * New method to retrieve the status of a session.

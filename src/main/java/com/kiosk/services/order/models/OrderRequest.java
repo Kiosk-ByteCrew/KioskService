@@ -14,10 +14,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderRequest {
 
-    private int userId;
-    private int restaurantId;
+    private Integer userId;
+    private String userName;
+    private Integer restaurantId;
     private List<ItemDetails> itemDetails;
-    private int tenantId;
-    private long createdAt;
+    private Integer tenantId;
+    private Long createdAt;
     private String status;
 }

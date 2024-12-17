@@ -56,4 +56,13 @@ public class OrderRepository {
                 new BeanPropertyRowMapper<>(Order.class)
         );
     }
+
+    public List<Order> findAllOrdersByUserName(String userName) {
+        String sqlQuery = MysqlQueries.FETCH_PAST_ORDERS_BY_USER_NAME;
+        return jdbcTemplate.query(
+                sqlQuery,
+                new Object[]{userName},
+                new BeanPropertyRowMapper<>(Order.class)
+        );
+    }
 }
