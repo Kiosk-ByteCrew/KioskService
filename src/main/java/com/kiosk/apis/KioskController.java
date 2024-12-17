@@ -1,6 +1,5 @@
 package com.kiosk.apis;
 
-
 import com.kiosk.model.Restaurant;
 import com.kiosk.services.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;

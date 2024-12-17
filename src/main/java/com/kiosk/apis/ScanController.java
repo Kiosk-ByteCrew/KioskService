@@ -71,7 +71,7 @@ public class ScanController {
 
             // If the session is connected, include user details
             if (isConnected) {
-                sessionDetails.put("user", session.getUser().getUsername());
+                sessionDetails.put("user", session.getUser().getUserName());
             }
 
             // Add the session details to the response list
@@ -99,7 +99,7 @@ public class ScanController {
 
         // Associate user with session
         User user = new User();
-        user.setUsername(username);
+        user.setUserName(username);
         session.setUser(user);
         sessionService.associateUserWithSession(sessionId, session);
 
@@ -127,7 +127,7 @@ public class ScanController {
         response.put("status", isConnected ? "connected" : "pending");
 
         if (isConnected) {
-            response.put("user", session.getUser().getUsername());
+            response.put("user", session.getUser().getUserName());
         }
 
         return ResponseEntity.ok(response);

@@ -20,3 +20,4 @@ public class RestaurantRepository {
         return jdbcTemplate.query(sqlQuery, new BeanPropertyRowMapper<>(Restaurant.class));
     }
 }
+
