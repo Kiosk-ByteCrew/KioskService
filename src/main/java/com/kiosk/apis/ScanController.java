@@ -1,8 +1,8 @@
-package com.KioskService.apis;
+package com.kiosk.apis;
 
-import com.KioskService.model.Session;
-import com.KioskService.model.User;
-import com.KioskService.services.SessionService;
+import com.kiosk.model.Session;
+import com.kiosk.model.User;
+import com.kiosk.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

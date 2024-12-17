@@ -1,6 +1,6 @@
-package com.KioskService.services;
+package com.kiosk.services;
 
-import com.KioskService.model.Session;
+import com.kiosk.model.Session;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
