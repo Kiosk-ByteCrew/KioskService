@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    private int id;
-    private String userName;
-    private UserDetails userDetails;
+public class ItemDetails {
+
+    private int itemId;
+    private String itemName;
+    private int quantity;
+    private double price;
 }
