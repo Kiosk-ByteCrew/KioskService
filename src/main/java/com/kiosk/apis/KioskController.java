@@ -1,13 +1,14 @@
 package com.kiosk.apis;
 
 import com.kiosk.model.Restaurant;
+import com.kiosk.model.User;
 import com.kiosk.services.restaurant.service.RestaurantService;
+import com.kiosk.services.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping()
@@ -15,6 +16,8 @@ public class KioskController {
 
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/try")
     public String hello() {
@@ -28,4 +31,10 @@ public class KioskController {
         }
         return restaurantService.fetchAllRestaurants();
     }
+//
+//    @PostMapping("/test")
+//    public User testUser(@RequestBody Map<String, String> test) {
+//        System.out.println(test);
+//        return userService.findOrCreateUser(test.get("userName"), test.get("email"));
+//    }
 }

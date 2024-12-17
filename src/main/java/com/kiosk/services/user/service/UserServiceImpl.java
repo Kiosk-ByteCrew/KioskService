@@ -41,6 +41,7 @@ package com.kiosk.services.user.service;
 
 import com.kiosk.model.Order;
 import com.kiosk.model.User;
+import com.kiosk.model.UserDetails;
 import com.kiosk.services.order.respository.OrderRepository;
 import com.kiosk.services.user.models.UserRequest;
 import com.kiosk.services.user.models.UserResponse;
@@ -74,6 +75,29 @@ public class UserServiceImpl implements UserService {
         user.setId(userId);
 
         return user;
+    }
+
+    @Override
+    public User findOrCreateUser(String username, String email) {
+        User user = fetchUserByUserName(username);
+        if (user != null) {
+            return user;
+        }
+        UserRequest userRequest = new UserRequest();
+        userRequest.setUsername(username);
+        UserDetails userDetails = new UserDetails();
+        userDetails.setNotifications(true);
+        userDetails.setTheme("System");
+        userDetails.setEmail(email);
+
+        userRequest.setUserDetails(userDetails);
+        user = createUser(userRequest);
+
+        return user;
+    }
+
+    private User fetchUserByUserName(String username) {
+        return userRepository.fetchUserByName(username);
     }
 
     private void validateUserRequest(UserRequest userRequest) {

@@ -8,4 +8,6 @@ public interface UserService {
 
     UserResponse fetchUserDetails(int userId);
     User createUser(UserRequest userRequest);
+
+    User findOrCreateUser(String username, String email);
 }
